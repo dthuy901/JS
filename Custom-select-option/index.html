@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Select</title>
+    <style>
+        input:focus{
+            outline: none;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            height: 100vh;
+        }
+        li{
+            list-style: none;
+        }
+        .container{
+            max-width: 240px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+        }
+        #submit{
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 10px;
+            background: rgba(255, 123, 0, 0.856);
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.952);
+        }
+        #submit:hover,
+        #submit:active{
+            color: #000
+        }
+        #fake{
+            position: relative;
+            width: 160px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        #fake span{
+            display: inline-block;
+            width: 100%;
+            background-color: #c4dcfc;
+            height: 30px;
+            line-height: 30px;
+            position: relative;
+            padding: 0 10px;
+            
+        }
+        #fake span:after{
+            position: absolute;
+            display: block;
+            content: " ";
+            top: 13px;
+            right: 5px;
+            border: 6px solid transparent;
+            border-top-color: #ff6347;
+            transition: all 0.1s ease;
+        }
+        #fake span.rotate:after{
+            top: 6px;
+            transform: rotate(-180deg);
+            transition: all 0.1s ease;
+        }
+        #fake ul{
+            position: absolute;
+            top: 110%;
+            left: 0;
+            width: 100%;
+            background-color: #c4dcfc;
+            display: none;
+            transition: all 0.2s ease;
+        }
+        #fake ul li{
+            height: 30px;
+            line-height: 30px;
+            padding: 0 10px;
+        }
+        #fake ul li:hover{
+            background-color: #0066ff63;
+           
+        }
+        .toggle-display{
+            display: block!important;
+            transition: all 0.2s ease;
+            
+        }
+        .chose{
+            background-color: #0066ff63;
+        }
+        
+        .disable{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="#" id="real">
+            <input type="hidden" name="language" value="" class="updateInput">
+            <input type="submit" value="Submit" id="submit"> 
+        </form>
+        <div id="fake">
+            <span class="updateSelect">Choose a language</span>
+            <ul>
+                <li value="C">C</li>
+                <li value="Javascript">Javascript</li>
+                <li value="PHP">PHP</li>
+                <li value="Java">Java</li>
+            </ul>
+        </div>
+    </div>
+   
+    <script>
+        var formId = document.getElementById('fake');
+        var ul = document.querySelector('#fake ul');
+        var lists = document.querySelectorAll('#fake ul li');
+        var updateSelect = document.querySelector('.updateSelect');
+        var updateInput = document.querySelector('.updateInput');
+
+        formId.onclick = function(event){
+            event.stopPropagation();
+            ul.classList.remove('disable');
+            ul.classList.toggle('toggle-display');
+            //xoay icon
+            updateSelect.classList.toggle('rotate');
+        }
+        //click outside close select option
+        document.body.addEventListener('click', () => {
+            ul.classList.remove('toggle-display');
+            ul.classList.add('disable');
+
+            //click outside xoay icon nếu select đang mở
+            if(updateSelect.classList.contains('rotate'))
+                updateSelect.classList.toggle('rotate');
+        });
+
+        lists.forEach( list => {
+            list.onclick = function(event){
+                let itemsSelected = document.querySelectorAll('.chose');
+               
+                //xóa background-color các option đã được chọn trước đó
+                itemsSelected.forEach( item => {
+                    item.classList.remove('chose');
+                });
+
+                //add màu cho option đang chọn, mỗi lần chỉ có 1 option hiển thị màu
+                list.classList.add('chose');
+
+                let getValue = list.getAttribute('value');
+                updateSelect.textContent = getValue;
+                updateInput.setAttribute('value', getValue);
+            }
+           
+        })
+
+        //ngăn việc submit form rỗng
+        submit.onclick = function(event){
+            let submitValue = updateInput.getAttribute('value');
+            if(!submitValue){
+                event.preventDefault();
+            }
+        }  
+    </script>
+</body>
+</html>
