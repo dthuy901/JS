@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Event</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        li{
+            list-style: none;
+        }
+        #tags li{
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #d3d3d3;
+            padding: 0 20px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .choose{
+            background-color: #33ff00!important;
+            
+        }
+        #notif{
+            margin-bottom: 10px;
+        }
+        #display{
+            font-weight: bold;
+            font-size: 18px;
+        }
+        /* multi-select */
+        .intro{
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        #multi-select{
+            display: flex;
+            max-width: 500px;
+            justify-content: space-between;
+        }
+        #multi-select ul{
+            width: 45%;
+            border: 1px solid #000;
+            min-height: 200px;
+
+        }
+        #multi-select ul li{
+            cursor: pointer;
+        }
+
+        #btns{
+            align-self: center;
+            max-width: 50px;
+        }
+        #btns button{
+            display: block;
+            margin: 10px auto;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="tags">
+        <p id= "notif">- You chose <span id= "display">0</span> languages</p>
+        <ul id="languages">
+            <li> C</li>
+            <li>Javascript</li>
+            <li>C++</li>
+            <li>C#</li>
+            <li>Java</li>
+            <li>Objective-C </li>
+            <li>Python</li>
+            <li>PHP</li>
+        </ul>
+    </div>
+
+    <p class="intro">- Move a single or multiple items between 2 side-by-side boxs</p>
+    <div id="multi-select">
+        <ul id="col-left">
+            <li>C</li>
+            <li>Javascript</li>
+            <li>C++</li>
+            <li>C#</li>
+            <li>Java</li>
+            <li>Objective-C </li>
+            <li>Python</li>
+            <li>PHP</li>
+
+        </ul>
+        <div id="btns">
+            <button id="to-right">&gt;&gt;</button>
+            <button id="to-left">&lt;&lt;</button>
+        </div>
+        <ul id="col-right"></ul>
+    </div>
+  
+    <script>
+        //1. cho 1 mang ten nguoi, hien thi mang nay ra 1 ul li
+        var names = [
+                        'Nguyen Van An',
+                        'Nguyen Van Binh',
+                        'Phan Minh Chau',
+                        'Phan Y Thien'
+                    ];
+        var newUl = document.createElement('ul');
+        document.body.appendChild(newUl);
+
+        names.forEach( name => {
+            var list = document.createElement('li');
+            list.innerHTML = name;
+            newUl.appendChild(list);
+        });
+
+        //2.
+        var tags = document.getElementById('tags');
+        var tagsID = tags.getAttribute('id');
+        var  result = document.getElementById('display');
+        
+        var links = document.querySelectorAll('#' + tagsID + ' ul li');
+        links.forEach( link => {
+            link.onclick = function(){
+                link.classList.toggle('choose');
+                let count = document.querySelectorAll('#' + tagsID + ' ul li.choose');
+                result.innerHTML = count.length;
+            }
+        });
+
+        //3
+        //button
+        var toRight = document.getElementById('to-right');
+        var toLeft = document.getElementById('to-left');
+
+        //column
+        var colRight = document.getElementById('col-right');
+        var colLeft = document.getElementById('col-left');
+
+      
+        //have choose class then move to other box
+        function moveList(ulTarget){
+            let ulCurrent;
+            if(ulTarget == '#col-right'){
+                ulCurrent = '#col-left';
+            }else{
+                ulCurrent = '#col-right';
+            }      
+            let moveLists = document.querySelectorAll(ulCurrent + ' li.choose');
+            //move item/items 
+            moveLists.forEach( list => {
+                document.querySelector(ulTarget).appendChild(list);
+            });
+
+            // init, delete item with choose class
+            var lists = document.querySelectorAll('li.choose');
+            lists.forEach( list =>{
+                list.classList.remove('choose');
+            });
+        }
+
+        var lists = document.querySelectorAll('#multi-select ul li');
+        lists.forEach( list => {
+            list.onclick = function(event){
+                //add choose class
+                list.classList.toggle('choose');
+                
+                //click button to move item/items
+                toRight.addEventListener('click', function(){
+                    moveList('#col-right');
+                });
+                toLeft.addEventListener('click', function(){
+                    moveList('#col-left');
+                });
+            }
+        });
+
+    </script>
+</body>
+</html>
+
