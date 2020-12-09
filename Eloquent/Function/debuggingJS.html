@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="findSolution(38)">Click me</button>
+    <script>
+        // function myFunction(n) {
+        //     if (n < 1) {
+        //         return [];
+        //     } else {
+        //         const countArray = myFunction(n - 1);
+        //         countArray.push(n);
+        //         return countArray;
+        //     }
+        // }
+        // console.log(myFunction(5)); // [ 1, 2, 3, 4, 5 ]
+
+        function findSolution(target) {
+            function find(current, history) {
+                if (current == target) {
+                return history;
+                } else if (current > target) {
+                return null;
+                } else {
+                return find(current + 5, `(${history} + 5)`) ||
+                        find(current * 3, `(${history} * 3)`);
+                }
+            }
+            return find(1, "1");
+            }
+
+        console.log(findSolution(38));
+        
+    </script>
+    <script src="scripts.js"></script>
+    <script src="correlation.js"></script>
+</body>
+</html>
