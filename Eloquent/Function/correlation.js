@@ -14,6 +14,7 @@ The notation n01 indicates the number of measurements where the first variable (
 The value n1• refers to the sum of all measurements where the first variable is true, 
 which is 5 in the example table. Likewise, n•0 refers to the sum of the measurements where the second variable is false.
 */
+var a= 'ben';
 var JOURNAL = [
     {"events":["carrot","exercise","weekend"],"squirrel":false},
     {"events":["bread","pudding","brushed teeth","weekend","touched tree"],"squirrel":false},
@@ -115,18 +116,27 @@ var JOURNAL = [
   (n00, n01, n10, n11)
 */
 function tableFor(event, journal){
-    let result = [0 , 0, 0, 0];         
-    for(let i = 0; i < journal.length; i++){
-        //index = 0 nếu không vào nhánh if nào
-        //index = 1 nếu chỉ rơi vào if(journal[i].events.includes(event))
-        //index = 2 nếu chỉ chạy vào nhánh if(journal[i].squirrel)
-        //index = 3 nếu chạy vào cả 2 nhánh if
-        //cuối cùng thì update giá trị tại từng index tương ứng
+    // let result = [0 , 0, 0, 0];         
+    // for(let i = 0; i < journal.length; i++){
+    //     //index = 0 nếu không vào nhánh if nào
+    //     //index = 1 nếu chỉ rơi vào if(journal[i].events.includes(event))
+    //     //index = 2 nếu chỉ chạy vào nhánh if(journal[i].squirrel)
+    //     //index = 3 nếu chạy vào cả 2 nhánh if
+    //     //cuối cùng thì update giá trị tại từng index tương ứng
+    //     let index = 0;
+    //     if(journal[i].squirrel)
+    //         index += 2;
+    //     if(journal[i].events.includes(event))
+    //         index += 1;
+    //     result[index] += 1;
+    // }
+    let result = [0, 0, 0, 0];
+    for(let obj of journal){
         let index = 0;
-        if(journal[i].squirrel)
-            index += 2;
-        if(journal[i].events.includes(event))
+        if(obj.events.includes(event))
             index += 1;
+        if(obj.squirrel)
+            index += 2;
         result[index] += 1;
     }
     return result;
