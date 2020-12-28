@@ -1169,6 +1169,7 @@ function findLanguage(str){
 }
 console.log(findLanguage('英国的狗说"woof", 俄罗斯的狗说"тяв", 🌹🐉'));
 
+
 /**
  * Dominant writing direction
  * Write a function that computes the dominant writing direction in a string of text. 
@@ -1176,13 +1177,13 @@ console.log(findLanguage('英国的狗说"woof", 俄罗斯的狗说"тяв", �
  * "rtl" (right to left), or "ttb" (top to bottom).
  */
 function dominantDirection(str){
-  scripts = countBy(str, 'direction', char => {
+  let scripts = countBy(str, 'direction', char => {
                     let directionScript = characterScript(char.codePointAt(), 'direction');
                     if(directionScript)
                       return directionScript;
-                    return null;
+                    return null;      
                   });
-  highestDirection = scripts.reduce( (dominant, item) => {
+  let highestDirection = scripts.reduce( (dominant, item) => {
     return dominant = dominant >= item.count ? dominant : item.count;
   }, 0);
   if(highestDirection == 0)
@@ -1197,17 +1198,24 @@ console.log(dominantDirection("!!!"));
 console.log(dominantDirection("Hey, مساء الخير"));
 
 //shorter version
+ 
 function dominantDirection2(str){
-  return scripts = countBy(str, 'direction', char => {
+  let scripts = countBy(str, 'direction', char => {
                     let directionScript = characterScript(char.codePointAt(), 'direction');
                     if(directionScript)
                       return directionScript;
                     return null;
-                  }).reduce( (itemPrev, itemNext) => {
+                  });
+  
+  //reduce cant be applied for empty array
+  if(scripts.length == 0)
+  
+    return 'no scripts';
+  return scripts.reduce((itemPrev, itemNext) => {
                       return itemPrev.count >= itemNext.count ? itemPrev : itemNext;
                     }).direction;
-  
+   
 }
-console.log(dominantDirection("Hello!"));
-console.log(dominantDirection("!!!"));
-console.log(dominantDirection("Hey, مساء الخير"));
+console.log(dominantDirection2("Hello!"));
+console.log(dominantDirection2("!!!"));
+console.log(dominantDirection2("Hey, مساء الخير"));
